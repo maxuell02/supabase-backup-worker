@@ -1,0 +1,20 @@
+{
+  "name": "supabase-backup-worker",
+  "version": "1.0.0",
+  "description": "Worker externo para operacoes pesadas do Supabase Backup & Disaster Recovery Manager (pg_dump, Supabase CLI, MinIO, agendamentos)",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1",
+    "minio": "^8.0.1",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.4.5",
+    "archiver": "^7.0.1",
+    "unzipper": "^0.12.3"
+  }
+}
