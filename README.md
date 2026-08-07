@@ -20,9 +20,13 @@ Worker externo (Node.js + Docker) responsável pelas operações que não rodam 
 - **URL do worker**: `http://SEU_IP:3333` (ou domínio/proxy reverso, se configurado)
 - **Chave de autenticação**: o mesmo valor definido em `WORKER_AUTH_KEY`
 
-Todas as chamadas (exceto `/health`) exigem o header:
+Todas as chamadas (exceto `/health`) exigem autenticação. O worker aceita qualquer um destes formatos de header, com o valor de `WORKER_AUTH_KEY`:
 ```
-x-worker-auth-key: <WORKER_AUTH_KEY>
+x-worker-auth-key: <token>
+x-worker-token: <token>
+x-api-key: <token>
+authorization: Bearer <token>
+authorization: <token>
 ```
 
 ## Endpoints disponíveis
@@ -30,6 +34,7 @@ x-worker-auth-key: <WORKER_AUTH_KEY>
 | Método | Rota | Descrição |
 |---|---|---|
 | GET | `/health` | Status do worker + versões de pg_dump/Supabase CLI (sem autenticação) |
+| GET | `/status` | Igual ao `/health`, mas **exigindo autenticação** — é o endpoint usado pela Lovable para validar a chave configurada em `/configuracoes` |
 | POST | `/backup/database` | Executa `pg_dump`, retorna caminho local + checksum SHA-256 |
 | POST | `/restore/database` | Recebe upload do dump e executa `pg_restore`/`psql` |
 | GET | `/files/:fileName` | Baixa um arquivo gerado (para envio ao MinIO ou download direto pelo usuário) |
